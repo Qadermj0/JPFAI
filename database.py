@@ -2,7 +2,7 @@ import asyncpg
 import asyncio
 from typing import Optional, List, Dict, Any
 from vertexai.generative_models import Content, Part
-
+from google.cloud.sql.connector import Connector
 # استيراد الإعدادات من ملف config.py
 # لم نعد بحاجة لاسم ملف قاعدة البيانات هنا
 import config
@@ -14,25 +14,31 @@ DB_POOL = None
 # --------------------------------------------------------------------------
 # دوال إدارة الاتصال (Connection Pool) - لا تعدل عليها
 # --------------------------------------------------------------------------
+
 async def init_db_pool():
-    """
-    تُنشئ الـ connection pool عند بدء تشغيل التطبيق.
-    """
     global DB_POOL
     if DB_POOL is None:
         try:
+            connector = Connector()
+            
+            def get_conn():
+                return connector.connect(
+                    "watira-genai:us-central1:watira-db",  # معرّف Cloud SQL
+                    "asyncpg",
+                    user=config.DB_USER,
+                    password=config.DB_PASSWORD,
+                    db=config.DB_NAME
+                )
+            
             DB_POOL = await asyncpg.create_pool(
-                user=config.DB_USER,
-                password=config.DB_PASSWORD,
-                database=config.DB_NAME,
-                host=config.DB_HOST,
+                connect=get_conn,
                 min_size=1,
                 max_size=10
             )
-            print("INFO: Database connection pool created successfully.")
+            print("✅ تم إنشاء connection pool بنجاح")
         except Exception as e:
-            print(f"FATAL: Could not create database connection pool: {e}")
-            DB_POOL = None
+            print(f"❌ فشل إنشاء اتصال بقاعدة البيانات: {e}")
+            raise  # لإظهار الخطأ في السجلات
 
 async def close_db_pool():
     """

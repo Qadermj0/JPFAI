@@ -335,18 +335,20 @@ async def planner_decision(
         print(f"DEBUG (llm_integrations): Planner selected 'visual_report' based on explicit keywords (single intent).")
         return "visual_report"
     
-    # --- Priority 4: Default Classification by LLM (if no keyword match) ---
+    
+    history_lines = "\n".join([f"{h.role}: {h.parts[0].text}" for h in history]) if history else "No history"
+
     prompt = f"""Classify this query into ONE of:
 - 'chit_chat'
 - 'text_answer'
 - 'visual_report'
 - 'email'
-- 'visual_report_and_email' # Crucial: Ensure the LLM knows this option!
-- 'email_text' # Also ensure the LLM knows this
-- 'email_image' # And this
+- 'visual_report_and_email'
+- 'email_text'
+- 'email_image'
 
 **History:**
-{"\n".join([f"{h.role}: {h.parts[0].text}" for h in history]) or "No history"}
+{history_lines}
 
 **Last Output Type:** {context.last_response_type or "None"}
 

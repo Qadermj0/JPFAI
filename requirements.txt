@@ -3,7 +3,9 @@
 fastapi
 uvicorn[standard]
 sse-starlette
-
+gunicorn
+cloud-sql-python-connector
+asyncpg
 # --- Database ---
 # مكتبات الاتصال بقاعدة بيانات PostgreSQL وإدارة الإعدادات
 asyncpg
