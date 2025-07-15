@@ -1,0 +1,15 @@
+# Environment variables
+.env
+
+# Google Auth Files - Don't commit these!
+token.json
+credentials.json
+
+# Python virtual environment
+venv/
+**/venv/
+
+# Python cache
+__pycache__/
+**/*/__pycache__/
+*.pyc

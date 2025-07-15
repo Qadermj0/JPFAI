@@ -1,0 +1,33 @@
+# --- Core Web Framework & Server ---
+# لإدارة السيرفر والـ API Endpoints
+fastapi
+uvicorn[standard]
+sse-starlette
+
+# --- Database ---
+# مكتبات الاتصال بقاعدة بيانات PostgreSQL وإدارة الإعدادات
+asyncpg
+python-dotenv
+
+# --- Google Cloud / Vertex AI / Gmail ---
+# مكتبات التعامل مع خدمات جوجل المختلفة
+google-cloud-aiplatform
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
+requests
+
+# --- Data, Visualization & Diagrams ---
+# مكتبات تحليل البيانات، توليد الصور والرسومات البيانية
+pandas
+numpy
+matplotlib
+networkx
+pydot
+
+# --- Utilities ---
+# مكتبات مساعدة للاتصالات غير المتزامنة والكاشينغ والنصوص العربية
+httpx[http2]
+arabic_reshaper
+python-bidi
+async-lru
